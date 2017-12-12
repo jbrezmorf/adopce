@@ -1,5 +1,8 @@
 #!/usr/bin/python3
 
+# Reads raw mail from stdin. Parse its first part from HTML to test. 
+# Retrives the transaction data.
+
 import sys
 import email
 import os
@@ -37,10 +40,9 @@ with open(mail_file, "r") as f:
         emails[name] = mail
 
 def report_error(msg):
-    command = "echo \"{}\" | mail -s \' ADOPCE ERRROR \' {} ".format(msg, admin_mail)
-    os.system(command)
-    print(command)
-    exit
+    command = "echo \"{}\" | mail -s \' ADOPCE ERRROR \' {} ".format(msg, admin_mail)    
+    os.system(command)    
+    raise Exception(command)
 
 
 def get_token(content, regexp):
@@ -101,10 +103,11 @@ def parse_file(content):
 
 
 content = sys.stdin.read()
-#with open("test-data/raw_mail_plz", "r") as f:
-#    content = f.read()
-
-[date, amount, VS, from_account, from_owner, PP] = parse_file(content)
+try:
+    [date, amount, VS, from_account, from_owner, PP] = parse_file(content)
+except Exception:
+    report_error("Chybny transakcni mail!\n")
+    
 who = vs_ropuchy.get(VS)
 if who is None:
     report_error("Nenalezen variabilni symbol platce!")
@@ -115,4 +118,4 @@ if err:
     report_error("Neuspesne volani \'mbrm\'!");
 
 mail = emails[who]
-#err=os.system("echo \"Zauctovana platba {}. Dik.\" | mail -s \' adopce OK \' {}".format(amount, mail))
+err=os.system("echo \"Zauctovana platba {}. Dik.\" | mail -s \' adopce OK \' {}".format(amount, mail))
