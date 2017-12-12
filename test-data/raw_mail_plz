@@ -1,0 +1,625 @@
+Delivered-To: jbrezmorf@gmail.com
+Received: by 10.237.36.72 with SMTP id s8csp1742361qtc;
+        Tue, 5 Dec 2017 00:00:47 -0800 (PST)
+X-Google-Smtp-Source: AGs4zMbTiMikohfwfZDQoR5kOcDjdWruB6tPAdGXeFVZs3zpe/9Vn6cHCQ8M+yR88Mgf/BW1cOMA
+X-Received: by 10.223.188.141 with SMTP id g13mr16138102wrh.169.1512460847879;
+        Tue, 05 Dec 2017 00:00:47 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1512460847; cv=none;
+        d=google.com; s=arc-20160816;
+        b=qV8zxIwW1B585bf+spPWNkyXcmKoAxTsjOTBiu8tdQ45J4g4so6Xy7r1N0ye9hpCdx
+         Dd9xED7ptub5q4NN+R8X1Xwebb1Wynwo3PgZxEYe/urDg0N3KlZNtu7fmrkBK/Ijg8SY
+         0wCp0Xj9BWNb3M3vcw9zN0bIpNRkAro7euc2ATcmrVrXICsrG7nv3C7+X/UpxQY8fn/R
+         zXEj1r0/zd0fEmF1gYApms7pRg1fcB7ukoMQhRlV9byd9oHqH+Nbq+5HWz6XLQV0cOSf
+         8ts6LV032qrZxqV6YbQjA/JMXHk4uHbhDfKSSzfIm9eHX89hO/MGqZIzzrjz2hE5Rs/j
+         3v9A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=from:date:message-id:mime-version:subject:to:delivered-to
+         :arc-authentication-results;
+        bh=+MIKXSfUXeeEszw0m55kZFjaMQ6ebQYQHyU6UnCELSw=;
+        b=ZCo818dPKNy+RGNrIlFBvhjjq193O3JHzfDGk0PXSuTZd/0keyRSTphEpz9Kmtgs2V
+         ZlM9rJkkbVZASpSVS52pVhvgCERkaFHEJ8VZ//FVn0VIkTNrlviLQU5wQMc/S23IJJpU
+         bj+PAQdXuf3EbguCvVBgShZLwZX6OzQ+Gol8WVhUpX0WPhTxhehsgpnrHXm39ijJkLFC
+         Efz188uuzgfYmV++QRQxCNPvLY8AiTZIlcyvstqL6D5sFZ2L+RBfD3bCJ1mR3Hc80GIG
+         7Z3rBYjmh9qc21yDMd+ngc6ybeHJzDVbNJ0kxZ0clnBgLCLVYBNUDBZSShZEgLclVpc6
+         oDQw==
+ARC-Authentication-Results: i=1; mx.google.com;
+       spf=pass (google.com: best guess record for domain of morf@atrey.karlin.mff.cuni.cz designates 195.113.26.193 as permitted sender) smtp.mailfrom=morf@atrey.karlin.mff.cuni.cz
+Return-Path: <morf@atrey.karlin.mff.cuni.cz>
+Received: from atrey.karlin.mff.cuni.cz (atrey.karlin.mff.cuni.cz. [195.113.26.193])
+        by mx.google.com with ESMTPS id a19si6245547wma.107.2017.12.05.00.00.47
+        for <jbrezmorf@gmail.com>
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 05 Dec 2017 00:00:47 -0800 (PST)
+Received-SPF: pass (google.com: best guess record for domain of morf@atrey.karlin.mff.cuni.cz designates 195.113.26.193 as permitted sender) client-ip=195.113.26.193;
+Authentication-Results: mx.google.com;
+       spf=pass (google.com: best guess record for domain of morf@atrey.karlin.mff.cuni.cz designates 195.113.26.193 as permitted sender) smtp.mailfrom=morf@atrey.karlin.mff.cuni.cz
+Received: by atrey.karlin.mff.cuni.cz (Postfix, from userid 4049)
+	id 76E2081880; Tue,  5 Dec 2017 09:00:47 +0100 (CET)
+X-Original-To: morf@atrey.karlin.mff.cuni.cz
+Delivered-To: morf@atrey.karlin.mff.cuni.cz
+Received: from mailproxy.rb.cz (beda.rb.cz [82.99.163.197])
+	by atrey.karlin.mff.cuni.cz (Postfix) with ESMTPS id 404648156C
+	for <morf@atrey.karlin.mff.cuni.cz>; Tue,  5 Dec 2017 09:00:47 +0100 (CET)
+Received: from czcrbp18.rb.cz (unknown [172.18.1.5])
+	by Forcepoint Email with ESMTP id 53AB7B5386FCF63816E9
+	for <morf@atrey.karlin.mff.cuni.cz>; Tue,  5 Dec 2017 09:00:11 +0100 (CET)
+Received: from sv87-mchjbo5-al-01 ([10.237.101.88])
+          by czcrbp18.rb.cz (IBM Domino Release 9.0.1FP8)
+          with ESMTP id 2017120509001149-373825 ;
+          Tue, 5 Dec 2017 09:00:11 +0100 
+To: morf@atrey.karlin.mff.cuni.cz
+Subject: =?utf-8?Q?Pohyb_na_=C3=BA=C4=8Dt=C4=9B?=
+MIME-Version: 1.0
+X-TNEFEvaluated: 1
+Message-ID: <1862200403.31307.1512460810772.JavaMail.nc@rb.cz>
+Date: Tue, 5 Dec 2017 09:00:10 +0100
+From: Raiffeisenbank <info@rb.cz>
+X-MIMETrack: Itemize by SMTP Server on CZCRBP18/CRB-PRAHA(Release 9.0.1FP8|February  23, 2017) at
+ 05.12.2017 09:00:11,
+	Serialize by Router on CZCRBP18/CRB-PRAHA(Release 9.0.1FP8|February  23, 2017) at
+ 05.12.2017 09:00:12
+Content-Type: multipart/related; 
+	boundary="----=_Part_31306_382438278.1512460810772"
+
+
+------=_Part_31306_382438278.1512460810772
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/html; charset=utf-8
+Content-Disposition: inline
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.=
+w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns=3D"http://www.w3.org/1999/xhtml">
+
+<head>
+ <meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3DUTF-8">
+ <meta name=3D"viewport" content=3D"initial-scale=3D1.0">
+ <meta name=3D"format-detection" content=3D"telephone=3Dno">
+ <title>Pohyb na =C3=BA=C4=8Dt=C4=9B</title>
+ <style type=3D"text/css">
+ .socialLinks {
+ font-size: 6px;
+ }
+=20
+ .socialLinks a {
+ display: inline-block;
+ }
+=20
+ .socialIcon {
+ display: inline-block;
+ vertical-align: top;
+ padding-bottom: 0px;
+ border-radius: 100%;
+ }
+=20
+ table.vb-row.fullwidth {
+ border-spacing: 0;
+ padding: 0;
+ }
+ </style>
+ <style type=3D"text/css">
+ /* yahoo, hotmail */
+=20
+ .ExternalClass,
+ .ExternalClass p,
+ .ExternalClass span,
+ .ExternalClass font,
+ .ExternalClass td,
+ .ExternalClass div {
+ line-height: 100%;
+ }
+=20
+ .yshortcuts a {
+ border-bottom: none !important;
+ }
+=20
+ .vb-outer {
+ min-width: 0 !important;
+ }
+=20
+ .RMsgBdy,
+ .ExternalClass {
+ width: 100%;
+ background-color: #ffffff;
+ background-color: #ffffff
+ }
+ /* outlook */
+=20
+ table {
+ mso-table-rspace: 0pt;
+ mso-table-lspace: 0pt;
+ }
+=20
+ #outlook a {
+ padding: 0;
+ }
+=20
+ img {
+ outline: none;
+ text-decoration: none;
+ border: none;
+ -ms-interpolation-mode: bicubic;
+ }
+=20
+ a img {
+ border: none;
+ }
+=20
+ @media screen and (max-device-width: 600px),
+ screen and (max-width: 600px) {
+ table.vb-container,
+ table.vb-row {
+  width: 95% !important;
+ }
+ .mobile-hide {
+  display: none !important;
+ }
+ .mobile-textcenter {
+  text-align: center !important;
+ }
+ .mobile-full {
+  float: none !important;
+  width: 100% !important;
+  max-width: none !important;
+  padding-right: 0 !important;
+  padding-left: 0 !important;
+ }
+ img.mobile-full {
+  width: 100% !important;
+  max-width: none !important;
+  height: auto !important;
+ }
+ }
+ </style>
+ <style type=3D"text/css">
+ #ko_textBlock_6 .links-color a:visited,
+ #ko_textBlock_6 .links-color a:hover {
+ color: #3f3f3f;
+ color: #3f3f3f;
+ text-decoration: underline;
+ }
+=20
+ #ko_textBlock_8 .links-color a:visited,
+ #ko_textBlock_8 .links-color a:hover {
+ color: #3f3f3f;
+ color: #3f3f3f;
+ text-decoration: underline;
+ }
+=20
+ #ko_footerBlock_2 .links-color a:visited,
+ #ko_footerBlock_2 .links-color a:hover {
+ color: #ccc;
+ color: #ccc;
+ text-decoration: underline;
+ }
+=20
+ #ko_doubleImageBlock_7 a,
+ #ko_doubleImageBlock_7 a:link,
+ #ko_doubleImageBlock_7 a:visited,
+ #ko_doubleImageBlock_7 a:hover {
+ color: #3f3f3f;
+ color: #3f3f3f;
+ text-decoration: underline;
+ }
+ </style>
+</head>
+
+<body bgcolor=3D"#3f3f3f" text=3D"#919191" alink=3D"#cccccc" vlink=3D"#cccc=
+cc" style=3D"margin: 0;padding: 0;background-color: #ffffff;color: #919191;=
+">
+ <center>
+ <!-- preheaderBlock -->
+  <table class=3D"vb-outer" width=3D"100%" cellpadding=3D"0" border=3D"0" c=
+ellspacing=3D"0" bgcolor=3D"#3f3f3f" style=3D"background-color: #ffffff;" i=
+d=3D"ko_preheaderBlock_1">
+  <tbody>
+  <tr>
+   <td class=3D"vb-outer" align=3D"center" valign=3D"top" bgcolor=3D"#3f3f3=
+f" style=3D"padding-left: 9px;padding-right: 9px;background-color: #ffffff;=
+">
+   <div style=3D"display: none; font-size: 1px; color: #333333; line-height=
+: 1px; max-height: 0px; max-width: 0px; opacity: 0; overflow: hidden;"></di=
+v>
+   <!--><table align=3D"center" border=3D"0" cellspacing=3D"0" cellpadding=
+=3D"0" width=3D"570"><tr><td align=3D"center" valign=3D"top"><!-->
+   <div class=3D"oldwebkit" style=3D"max-width: 570px;">
+<table width=3D"570" border=3D"0" cellpadding=3D"0" cellspacing=3D"0" class=
+=3D"vb-row halfpad" bgcolor=3D"#3f3f3f" style=3D"border-spacing: 0px;border=
+-collapse: collapse;border-spacing: 0;padding-left: 0px;padding-right: 9px;=
+width: 100%;max-width: 570px;background-color: #ffffff;">
+ <tbody>
+ <tr>
+  <td align=3D"center" valign=3D"top" bgcolor=3D"#3f3f3f" style=3D"font-siz=
+e: 0; background-color: #ffffff;">
+  <!--><table align=3D"center" border=3D"0" cellspacing=3D"0" cellpadding=
+=3D"0" width=3D"552"><tr><!-->
+  <!--><td align=3D"left" valign=3D"top" width=3D"276"><!-->
+  <div style=3D"display: inline-block; max-width: 276px; vertical-align: to=
+p; width: 100%;float:left" class=3D"mobile-full">
+   <table class=3D"vb-content" border=3D"0" cellspacing=3D"" cellpadding=3D=
+"0" width=3D"276" style=3D"border-collapse: collapse;width: 100%;" align=3D=
+"left">
+   <tbody>
+<tr>
+ <td width=3D"100%" valign=3D"top" align=3D"left" style=3D"font-weight: nor=
+mal; text-align: left; font-size: 13px; font-family: Arial, Helvetica, sans=
+-serif; color: #ffffff;">
+ <a style=3D"text-decoration: underline; color: #ffffff;" target=3D"_new" h=
+ref=3D"/" style=3D"height:60px; width:120px; display:block;">
+ <img src=3D"cid:logoRB.png" alt=3D"" style=3D"padding:20px; background:#ff=
+f30a"/></a>
+ </td>
+</tr>
+   </tbody>
+   </table>
+  </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+   </div>
+   <!--></td></tr></table><!-->
+   </td>
+  </tr>
+  </tbody>
+ </table>
+ <!-- /preheaderBlock -->
+ <table class=3D"vb-outer" width=3D"100%" cellpadding=3D"0" border=3D"0" ce=
+llspacing=3D"0" bgcolor=3D"#ffffff" style=3D"background-color: #ffffff;" id=
+=3D"ko_titleBlock_5">
+  <tbody>
+  <tr>
+   <td class=3D"vb-outer" align=3D"center" valign=3D"top" bgcolor=3D"#fffff=
+f" style=3D"padding-left: 9px;padding-right: 9px;background-color: #ffffff;=
+">
+   <!--><table align=3D"center" border=3D"0" cellspacing=3D"0" cellpadding=
+=3D"0" width=3D"570"><tr><td align=3D"center" valign=3D"top"><!-->
+   <div class=3D"oldwebkit" style=3D"max-width: 570px;">
+<table width=3D"570" border=3D"0" cellpadding=3D"0" cellspacing=3D"9" class=
+=3D"vb-container halfpad" bgcolor=3D"#ffffff" style=3D"border-collapse: sep=
+arate;border-spacing: 9px;padding-left: 9px;padding-right: 9px;width: 100%;=
+max-width: 570px;background-color: #fff;">
+ <tbody>
+ <tr>
+  <td bgcolor=3D"#ffffff" align=3D"left" style=3D"background-color: #ffffff=
+; font-size: 22px; font-family: Arial, Helvetica, sans-serif; color: #3f3f3=
+f; text-align: left;">
+  <span style=3D"display: block; margin-top: 25px">Pohyb na =C3=BA=C4=8Dt=
+=C4=9B</span>
+  </td>
+ </tr>
+ </tbody>
+</table>
+   </div>
+   <!--></td></tr></table><!-->
+   </td>
+  </tr>
+  </tbody>
+ </table>
+ <table class=3D"vb-outer" width=3D"100%" cellpadding=3D"0" border=3D"0" ce=
+llspacing=3D"0" bgcolor=3D"#ffffff" style=3D"background-color: #ffffff;" id=
+=3D"ko_textBlock_6">
+  <tbody>
+  <tr>
+   <td class=3D"vb-outer" align=3D"center" valign=3D"top" bgcolor=3D"#fffff=
+f" style=3D"padding-left: 9px;padding-right: 9px;background-color: #ffffff;=
+">
+   <!--><table align=3D"center" border=3D"0" cellspacing=3D"0" cellpadding=
+=3D"0" width=3D"570"><tr><td align=3D"center" valign=3D"top"><!-->
+   <div class=3D"oldwebkit" style=3D"max-width: 570px;">
+<table width=3D"570" border=3D"0" cellpadding=3D"0" cellspacing=3D"18" clas=
+s=3D"vb-container fullpad" bgcolor=3D"#ffffff" style=3D"border-collapse: se=
+parate;border-spacing: 18px;padding-left: 0;padding-right: 0;width: 100%;ma=
+x-width: 570px;background-color: #fff;">
+ <tbody>
+ <tr>
+  <td align=3D"left" class=3D"long-text links-color" style=3D"text-align: l=
+eft; font-size: 13px; font-family: Arial, Helvetica, sans-serif; color: #3f=
+3f3f;">
+  <p style=3D"margin: 0em 0px;margin-top: 0px;">V=C3=A1=C5=BEen=C3=A1 klien=
+tko, v=C3=A1=C5=BEen=C3=BD kliente,<br> na =C3=BA=C4=8Dt=C4=9B byla provede=
+na n=C3=A1sleduj=C3=ADc=C3=AD p=C5=99=C3=ADchoz=C3=AD platba:</p>
+  </td>
+ </tr>
+ </tbody>
+</table>
+   </div>
+   <!--></td></tr></table><!-->
+   </td>
+  </tr>
+  </tbody>
+ </table>
+ <table class=3D"vb-outer" width=3D"100%" cellpadding=3D"0" border=3D"0" ce=
+llspacing=3D"0" bgcolor=3D"#ffffff" style=3D"background-color: #ffffff;" id=
+=3D"ko_doubleImageBlock_7">
+  <tbody>
+  <tr>
+   <td class=3D"vb-outer" align=3D"center" valign=3D"top" bgcolor=3D"#fffff=
+f" style=3D"padding-left: 9px;padding-right: 9px;background-color: #ffffff;=
+">
+   <!--><table align=3D"center" border=3D"0" cellspacing=3D"0" cellpadding=
+=3D"0" width=3D"570"><tr><td align=3D"center" valign=3D"top"><!-->
+   <div class=3D"oldwebkit" style=3D"max-width: 570px;">
+<table width=3D"570" class=3D"vb-container fullwidth" cellpadding=3D"0" bor=
+der=3D"0" bgcolor=3D"#ffffff" align=3D"center" cellspacing=3D"0" style=3D"b=
+order-collapse: separate;padding-left: 0;padding-right: 0;width: 100%;max-w=
+idth: 570px;background-color: #fff;">
+ <tbody>
+ <tr>
+  <td valign=3D"top" align=3D"center" class=3D"mobile-row" style=3D"font-si=
+ze: 0;">
+ =20
+  </td>
+ </tr>
+ </tbody>
+</table>
+   </div>
+   <!--></td></tr></table><!-->
+   </td>
+  </tr>
+  </tbody>
+ </table>
+ <table class=3D"vb-outer" width=3D"100%" cellpadding=3D"0" border=3D"0" ce=
+llspacing=3D"0" bgcolor=3D"#ffffff" style=3D"background-color: #ffffff;" id=
+=3D"ko_hrBlock_9">
+  <tbody>
+  <tr>
+   <td class=3D"vb-outer" align=3D"center" valign=3D"top" bgcolor=3D"#fffff=
+f" style=3D"padding-left: 9px;padding-right: 9px;background-color: #ffffff;=
+">
+   <!--><table align=3D"center" border=3D"0" cellspacing=3D"0" cellpadding=
+=3D"0" width=3D"570"><tr><td align=3D"center" valign=3D"top"><!-->
+   <div class=3D"oldwebkit" style=3D"max-width: 570px;">
+=09=09=09=09=09=09=09=09=09=09=09=09=09=09<table width=3D"570" border=3D"0"=
+ cellpadding=3D"0" cellspacing=3D"18" class=3D"vb-container fullpad" bgcolo=
+r=3D"#ffffff" style=3D"border-collapse: separate;border-spacing: 18px;paddi=
+ng-left: 0;padding-right: 0;width: 100%;max-width: 570px;background-color: =
+#fff;">
+ <tbody>
+ <tr>
+  <td align=3D"left" class=3D"long-text links-color" style=3D"text-align: l=
+eft; font-size: 13px; font-family: Arial, Helvetica, sans-serif; color: #3f=
+3f3f;">
+  <p style=3D"margin: 0em 0px;margin-top: 0px;">Datum a =C4=8Das</p>
+  </td>
+  <td align=3D"left" class=3D"long-text links-color" style=3D"text-align: r=
+ight; font-weight:bold; font-size: 13px; font-family: Arial, Helvetica, san=
+s-serif; color: #3f3f3f;">
+  <p style=3D"margin: 0em 0px;margin-top: 0px;">05. 12. 2017 08:57</p>
+  </td>
+ </tr>
+ <tr>
+  <td align=3D"left" class=3D"long-text links-color" style=3D"text-align: l=
+eft; font-size: 13px; font-family: Arial, Helvetica, sans-serif; color: #3f=
+3f3f;">
+  <p style=3D"margin: 0em 0px;margin-top: 0px;">Na =C3=BA=C4=8Det</p>
+  </td>
+  <td align=3D"left" class=3D"long-text links-color" style=3D"text-align: r=
+ight; font-weight:bold; font-size: 13px; font-family: Arial, Helvetica, san=
+s-serif; color: #3f3f3f;">
+  <p style=3D"margin: 0em 0px;margin-top: 0px;">3984563001/5500<br>Petr =C5=
+=A0idlof</p>
+  </td>
+ </tr>
+   <br>
+ <tr>
+  <td align=3D"left" class=3D"long-text links-color" style=3D"text-align: l=
+eft; font-size: 13px; font-family: Arial, Helvetica, sans-serif; color: #3f=
+3f3f;">
+  <p style=3D"margin: 0em 0px;margin-top: 0px;">=C4=8C=C3=A1stka v m=C4=9Bn=
+=C4=9B =C3=BA=C4=8Dtu</p>
+  </td>
+  <td align=3D"left" class=3D"long-text links-color" style=3D"text-align: r=
+ight; font-weight:bold; font-size: 13px; font-family: Arial, Helvetica, san=
+s-serif; color: #3f3f3f;">
+  <p style=3D"margin: 0em 0px;margin-top: 0px;">+388,50 CZK</p>
+  </td>
+ </tr>
+  =20
+=20
+ <tr>
+  <td align=3D"left" class=3D"long-text links-color" style=3D"text-align: l=
+eft; font-size: 13px; font-family: Arial, Helvetica, sans-serif; color: #3f=
+3f3f;">
+<p style=3D"margin: 0em 0px;margin-top: 0px;">Kategorie pohybu</p>
+  </td>
+  <td align=3D"left" class=3D"long-text links-color" style=3D"text-align: r=
+ight; font-weight:bold; font-size: 13px; font-family: Arial, Helvetica, san=
+s-serif; color: #3f3f3f;">
+=09=09=09=09=09=09=09=09=09=09=09=09=09=09=09=09=09=09=09=09=09<p style=3D"=
+margin: 0em 0px;margin-top: 0px;">Platba</p>
+  </td>
+ </tr>
+ <tr>
+  <td align=3D"left" class=3D"long-text links-color" style=3D"text-align: l=
+eft; font-size: 13px; font-family: Arial, Helvetica, sans-serif; color: #3f=
+3f3f;">
+<p style=3D"margin: 0em 0px;margin-top: 0px;">Typ pohybu</p>
+  </td>
+  <td align=3D"left" class=3D"long-text links-color" style=3D"text-align: r=
+ight; font-weight:bold; font-size: 13px; font-family: Arial, Helvetica, san=
+s-serif; color: #3f3f3f;">
+=09=09=09=09=09=09=09=09=09=09=09=09=09=09=09=09=09=09=09=09=09<p style=3D"=
+margin: 0em 0px;margin-top: 0px;">P=C5=99=C3=ADchoz=C3=AD platba</p>
+  </td>
+ </tr>
+ <tr>
+  <td align=3D"left" class=3D"long-text links-color" style=3D"text-align: l=
+eft; font-size: 13px; font-family: Arial, Helvetica, sans-serif; color: #3f=
+3f3f;">
+  <p style=3D"margin: 0em 0px;margin-top: 0px;">Z =C3=BA=C4=8Dtu</p>
+  </td>
+  <td align=3D"left" class=3D"long-text links-color" style=3D"text-align: r=
+ight; font-weight:bold; font-size: 13px; font-family: Arial, Helvetica, san=
+s-serif; color: #3f3f3f;">
+  <p style=3D"margin: 0em 0px;margin-top: 0px;">670100-2201709859/6210<br>J=
+AROSLAV KULT</p>
+  </td>
+ </tr>
+  =20
+=20
+=20
+ <tr>
+ <td align=3D"left" class=3D"long-text links-color" style=3D"text-align: le=
+ft; font-size: 13px; font-family: Arial, Helvetica, sans-serif; color: #3f3=
+f3f;">
+  <p style=3D"margin: 0em 0px;margin-top: 0px;">Variabiln=C3=AD symbol</p>
+ </td>
+ <td align=3D"left" class=3D"long-text links-color" style=3D"text-align: ri=
+ght; font-weight:bold; font-size: 13px; font-family: Arial, Helvetica, sans=
+-serif; color: #3f3f3f;">
+  <p style=3D"margin: 0em 0px;margin-top: 0px;">2727272727</p>
+ </td>
+ </tr>
+ <tr>
+ <td align=3D"left" class=3D"long-text links-color" style=3D"text-align: le=
+ft; font-size: 13px; font-family: Arial, Helvetica, sans-serif; color: #3f3=
+f3f;">
+  <p style=3D"margin: 0em 0px;margin-top: 0px;">Konstantn=C3=AD symbol</p>
+ </td>
+ <td align=3D"left" class=3D"long-text links-color" style=3D"text-align: ri=
+ght; font-weight:bold; font-size: 13px; font-family: Arial, Helvetica, sans=
+-serif; color: #3f3f3f;">
+  <p style=3D"margin: 0em 0px;margin-top: 0px;">558</p>
+ </td>
+ </tr>
+ <tr>
+ <td align=3D"left" class=3D"long-text links-color" style=3D"text-align: le=
+ft; font-size: 13px; font-family: Arial, Helvetica, sans-serif; color: #3f3=
+f3f;">
+  <p style=3D"margin: 0em 0px;margin-top: 0px;">Specifick=C3=BD symbol</p>
+ </td>
+ <td align=3D"left" class=3D"long-text links-color" style=3D"text-align: ri=
+ght; font-weight:bold; font-size: 13px; font-family: Arial, Helvetica, sans=
+-serif; color: #3f3f3f;">
+  <p style=3D"margin: 0em 0px;margin-top: 0px;">11150</p>
+ </td>
+ </tr>
+ <tr>
+ <td align=3D"left" class=3D"long-text links-color" style=3D"text-align: le=
+ft; font-size: 13px; font-family: Arial, Helvetica, sans-serif; color: #3f3=
+f3f;">
+  <p style=3D"margin: 0em 0px;margin-top: 0px;">Zpr=C3=A1va pro p=C5=99=C3=
+=ADjemce</p>
+ </td>
+ <td align=3D"left" class=3D"long-text links-color" style=3D"text-align: ri=
+ght; font-weight:bold; font-size: 13px; font-family: Arial, Helvetica, sans=
+-serif; color: #3f3f3f;">
+  <p style=3D"margin: 0em 0px;margin-top: 0px;">ALIMENTY PLZ</p>
+ </td>
+ </tr>
+=20
+ <tr>
+  <td align=3D"left" class=3D"long-text links-color" style=3D"text-align: l=
+eft; font-size: 13px; font-family: Arial, Helvetica, sans-serif; color: #3f=
+3f3f;">
+<p style=3D"margin: 0em 0px;margin-top: 0px;">Disponibiln=C3=AD z=C5=AFstat=
+ek po pohybu</p>
+  </td>
+  <td align=3D"left" class=3D"long-text links-color" style=3D"text-align: r=
+ight; font-weight:bold; font-size: 13px; font-family: Arial, Helvetica, san=
+s-serif; color: #3f3f3f;">
+=09=09=09=09=09=09=09=09=09=09=09=09=09=09=09=09=09=09=09=09=09<p style=3D"=
+margin: 0em 0px;margin-top: 0px;">+62.993,10 CZK</p>
+  </td>
+ </tr>
+ </tbody>
+</table>
+   </div>
+   <!--></td></tr></table><!-->
+   </td>
+  </tr>
+  </tbody>
+ </table>
+ <table class=3D"vb-outer" width=3D"100%" cellpadding=3D"0" border=3D"0" ce=
+llspacing=3D"0" bgcolor=3D"#ffffff" style=3D"background-color: #ffffff;" id=
+=3D"ko_textBlock_8">
+  <tbody>
+  <tr>
+   <td class=3D"vb-outer" align=3D"center" valign=3D"top" bgcolor=3D"#fffff=
+f" style=3D"padding-left: 9px;padding-right: 9px;background-color: #ffffff;=
+">
+   <!--><table align=3D"center" border=3D"0" cellspacing=3D"0" cellpadding=
+=3D"0" width=3D"570"><tr><td align=3D"center" valign=3D"top"><!-->
+   <div class=3D"oldwebkit" style=3D"max-width: 570px;">
+<table width=3D"570" border=3D"0" cellpadding=3D"0" cellspacing=3D"18" clas=
+s=3D"vb-container fullpad" bgcolor=3D"#ffffff" style=3D"border-collapse: se=
+parate;border-spacing: 18px;padding-left: 0;padding-right: 0;width: 100%;ma=
+x-width: 570px;background-color: #fff;">
+ <tbody>
+ <tr>
+  <td align=3D"left" class=3D"long-text links-color" style=3D"text-align: j=
+ustify; font-size: 13px; font-family: Arial, Helvetica, sans-serif; color: =
+#3f3f3f;">
+  <p style=3D"margin: 0em 0px;margin-top: 0px;">Tento e-mail byl vygenerov=
+=C3=A1n v r=C3=A1mci slu=C5=BEby Informuj m=C4=9B od Raiffeisenbank a.s.</p=
+>
+  <p style=3D"margin-bottom: 0px;">V p=C5=99=C3=ADpad=C4=9B dotaz=C5=AF vol=
+ejte NONSTOP infolinku 800 900 900 (+420 412 446 400 pro vol=C3=A1n=C3=AD z=
+e zahrani=C4=8D=C3=AD) nebo kontaktujte sv=C3=A9ho bank=C3=A9=C5=99e =C4=8D=
+i pobo=C4=8Dku, p=C5=99=C3=ADpadn=C4=9B n=C3=A1s kontaktujte e-mailem na in=
+fo@rb.cz.</p>
+  <p>Va=C5=A1e Raiffeisenbank a.s.</p>
+  </td>
+ </tr>
+ </tbody>
+</table>
+   </div>
+   <!--></td></tr></table><!-->
+   </td>
+  </tr>
+  </tbody>
+ </table>
+ <!-- footerBlock -->
+ <!-- /footerBlock -->
+ </center>
+</body>
+
+</html>
+------=_Part_31306_382438278.1512460810772
+Content-Type: image/png; name=logoRB.png
+Content-Disposition: inline; filename=logoRB.png
+Content-ID: <logoRB.png>
+Content-Transfer-Encoding: base64
+
+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
+
+
+------=_Part_31306_382438278.1512460810772--
+

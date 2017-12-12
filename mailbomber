@@ -1,0 +1,103 @@
+#!/bin/sh
+#
+# syntaxe: mailbomber n_run
+#
+# n_run je pocet spusteni vramci jednoho retezce upozornovani
+#
+# soucast uctovaciho a upozornovaciho systemu por adopci
+# popis funkce:
+# pokud je n_run==0 :
+#   naplanuje se spusteni za pul roku
+# dale prochazi aktualni stavy uctu v souboru $MAILLIST
+# a tem kdo jsou v minusu posle upozorneni $MAILMSG s zadosti o zapaceni 
+# prislusne castky a to na mail uvedeni v $MAILS
+# 
+# pokud zbyva nejaky dluznik, naplanuje se spusteni za tyden az tri dny
+# 
+
+MAILLIST="$HOME/bin/adopce/adopce-list"
+MAILMSG="$HOME/bin/adopce/adopce-msg"
+MAILS="$HOME/bin/adopce/adopce-mails"
+
+#######################################################################################
+# select people with negative account and inform them
+function ask_for_pay() {
+  { 
+  while read NAME TOPAY PAIED
+  do
+    if [ "${PAIED%%[^-]*}" == "-" ]
+    then
+      	# not paied enought
+      	MAIL=`cat $MAILS|grep $NAME|head -n 1`
+      	MAIL=`echo $MAIL|sed -e 's/.* \(.*@.*\)/\1/'|sed -e 's/[<>]//g'`
+	
+	# test for small values
+        x=${PAIED%.*}	# make integer
+	x=${x#-}	# absolute value
+	x=${x%[0-9]}	# devide by 10
+	x=${x%[012]};	# remove 0,1,2 => if PAIED <= -29.99999 then x == ""
+	if [ "$x" == "" ]
+	then
+		if (( $RUN == 0 )) 
+		then	
+			mail -s "Dlužíš drobnou částku: ${PAIED#-} Kc, můžeš zaplatit až s příští platbou." $MAIL <$MAILMSG
+		fi
+	else
+	      if (( $RUN == 0 ))
+	      then
+	  	     mail -s "Zaplat adopci: ${PAIED#-} Kc" $MAIL <$MAILMSG 
+	      else
+	       	     mail -s "Zaplat adopci: ${PAIED#-} Kc, $RUN. upominka" $MAIL <$MAILMSG
+	      fi
+	      export IS_THERE_SINER="yes"			
+	fi
+    fi        
+  done;  
+  } <"$MAILLIST";
+}
+
+#########################################################################################
+# Main program
+
+# get program parameters
+RUN=$1
+if [ "$RUN" == "" ] 
+then
+  RUN=0
+fi
+
+# init global variables
+export IS_THERE_SINER="yes"		
+#echo "no" >$HOME/bin/xx_siner
+
+if (( $RUN == 0 ))
+then
+  # schedule call after half a year
+    echo "~/bin/mailbomber 0"| at now+182 days 
+  # add amounht to pay
+  ~/bin/mbrm "alladd"
+fi
+# mail to those who have to pay
+ask_for_pay;
+
+# if there remains some sinners, schdule to call after few days
+if [ "$IS_THERE_SINER" == "yes" ]
+then
+  NUM=`expr 7 - 2 '*' $RUN `
+  if (( $NUM <= 2 ))
+  then
+    NUM="3"
+  fi    
+  RUN=`expr $RUN + 1`
+  # re run remember script if it is not to late
+  if [[ $RUN -lt 30 ]]
+  then  
+    echo "after $NUM days run: $HOME/bin/mailbomber $RUN"
+    atq
+    echo "$HOME/bin/mailbomber $RUN"|at now+$NUM days 
+  fi  
+fi  
+
+# touch mail folder - be sure that it exists
+# removed - it seems it is not neceessary pro procmail
+# touch ~/bin/adopce/bank_mail.log 

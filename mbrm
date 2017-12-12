@@ -1,0 +1,72 @@
+#!/usr/bin/perl
+#
+# syntaxe: 
+# mbrm who amount [note]
+# mbrm "addall"
+#
+# who - jmeno cloveka ktery plati (podle $ACCOUNT)
+# amount - kolik clovek zaplatil
+# note - nepovinna poznamka do logu
+#
+# addall - pokud je who=="addall" tak se kazdemu odecte pravidelna platba
+#          toto provadi mailbomber jednou za pul roku
+#
+# tento skript by mel byt pouzivan pro vsechny operace nad ucte, 
+# vsechny transakce se loguji do $A_LOG
+#
+$HOME="/home/morf";
+$ACCOUNT="$HOME/bin/adopce/adopce-list";
+$TMP_ACCOUNT="$ACCOUNT.temp";
+$A_LOG="$HOME/bin/adopce/account.log";
+$WHO=$ARGV[0];
+$HOWMUCH=$ARGV[1];
+$NOTE=$ARGV[2];
+
+($day, $month, $year) = (localtime)[3,4,5];
+$DATE=sprintf("%04d-%02d-%02d", $year+1900, $month+1, $day);
+
+# open input, output, and log
+open(IN,"<$ACCOUNT") || die("Can't open in file :$ACCOUNT\n");
+open(OUT,">$TMP_ACCOUNT") || die("Can't open out file :$TMP_ACCOUNT\n");
+open(LOG,">>$A_LOG") || die("Can't open log file : $A_LOG\n");
+
+# check input person 
+if ($WHO eq "") {
+  print "ERR:\n";
+  # list possibilities
+  while (<IN>) {print;}
+  die("-------------------\nAccount to which person?\n");
+}
+
+# perform half a year addition of amount
+if ($WHO eq "alladd") {
+  while (<IN>) {
+    chop;
+    ($NAME,$TOPAY,$PAIED)=split;
+    $PAIED = $PAIED - $TOPAY;
+    printf LOG "%s  %20s %+10.2f  = %6.2f | %s\n",$DATE, $NAME, -$TOPAY, $PAIED, "all add";
+    print OUT "$NAME $TOPAY $PAIED\n"; 
+  }    
+  $FOUND=1;
+} else {
+  if ($HOWMUCH eq "") {die("ERR: How much $WHO has to pay?\n");}
+  while (<IN>) {
+    chop;
+    ($NAME,$TOPAY,$PAIED)=split;
+    if ($NAME eq $WHO) {
+    	$FOUND=1;
+    	$PAIED = $PAIED + $HOWMUCH;
+	printf LOG "%s  %20s %+10.2f  = %6.2f | %s\n",$DATE,$NAME,$HOWMUCH,$PAIED,$NOTE;
+    }
+    print OUT "$NAME $TOPAY $PAIED\n"; 
+    print "$NAME $TOPAY $PAIED\n";
+  } 
+}  
+if ($FOUND != 1) {
+  die("ERR: Can not find: $WHO.\n");
+}
+print "SUCCESS\n";
+close(IN); close(OUT);
+
+# actualise account table
+rename($TMP_ACCOUNT,$ACCOUNT) || die("Can't rename\n");
