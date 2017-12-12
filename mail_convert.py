@@ -33,7 +33,6 @@ vs_ropuchy = {
 with open(mail_file, "r") as f:
     emails={}
     for line in f:
-        print(line)
         name, mail, *rest = line.split()
         emails[name] = mail
 
@@ -61,11 +60,13 @@ class TextHTML(HTMLParser):
             char = match.group(1) + match.group(2)
             #print("char: ", char)
             return binascii.unhexlify(char).decode()
-
+        #print("\nData: ", data)
+        data = re.sub(r"=\r",'',data)
         single_line =''.join(data.split("\n"))
+        #print(data.split("\n"))
         #print("line: ", single_line)
         single_line = re.sub(r'=([\dA-Fa-f][\dA-Fa-f])=([\dA-Fa-f][\dA-Fa-f])', to_utf, single_line)
-        single_line = re.sub(r'=', '', single_line)
+        single_line = re.sub(r'=09', '', single_line)
         self.content.append(single_line)
 
 
@@ -81,7 +82,9 @@ def parse_file(content):
         body = body[0].get_payload()
     body = re.sub(r"<!-->", '', body)
     content = '\n'.join(html_to_text(body))
-    #print(content)
+    print("------------------")
+    print(content)
+    print("------------------")
 
     PP='No msg'
     date, content = get_token(content, r"Datum a čas\s*(\d*\. \d*\. \d* \d*:\d*)")
@@ -94,39 +97,13 @@ def parse_file(content):
     return [date, amount, VS, from_account, from_owner, PP]
 
 
-    #$who=$lidi{$VS};
-    #if (! $who) {
-        #while (($xx, $name) = each (%lidi)) {
-        #if ($PP =~ /$name/i) {
-            #$who=$name; 
-        #}
-    #}
-    #if (! $who) {
-    #report_error("Nenalezen variabilni symbol platce!\nline: $line");}
-    #}
-    ## account by call mbrm
-    #$_=`~/bin/mbrm $who $amount \"$date $amount VS: $VS Z: $ucet PJ: $PJ PP: $PP\"`;
-    #if (!/SUCCESS/ || /ERR/) {
-      #report_error("Neuspesne volani \'mbrm\'!\n line: $line\n$_");
-    #}
-
-    ## send informative mail 
-        #$MAIL=`cat $MAILS|grep $who |head -n 1`; # get appropriate line
-        #$MAIL=~/([a-z.]*@[a-z.]*)/;
-    #$MAIL=$1;
-    #system(" echo \"Zauctovana platba $amont. Dik.\" | mail -s \' adopce OK \' $MAIL");
-
-    #$OK=1;
-    #} 
-#else {
-    #report_error("Chybny transakcni mail!\n");
-#}
 
 
 
-#filetext = sys.stdin.read()
-with open("test-data/raw_mail_plz", "r") as f:
-    content = f.read()
+content = sys.stdin.read()
+#with open("test-data/raw_mail_plz", "r") as f:
+#    content = f.read()
+
 [date, amount, VS, from_account, from_owner, PP] = parse_file(content)
 who = vs_ropuchy.get(VS)
 if who is None:
@@ -138,4 +115,4 @@ if err:
     report_error("Neuspesne volani \'mbrm\'!");
 
 mail = emails[who]
-err=os.system("echo \"Zauctovana platba {}. Dik.\" | mail -s \' adopce OK \' {}".format(amount, mail))
+#err=os.system("echo \"Zauctovana platba {}. Dik.\" | mail -s \' adopce OK \' {}".format(amount, mail))
