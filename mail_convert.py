@@ -11,6 +11,7 @@ import binascii
 from html.parser import HTMLParser
 
 import os
+import datetime
 script_path = os.path.dirname(os.path.realpath(__file__))
 
 mail_file = os.path.join(script_path, "adopce-data", "adopce-mails")
@@ -28,7 +29,8 @@ vs_ropuchy = {
 "7979797979":"leco",
 "1515151515":"skippy",
 "7878787878":"drak",
-"4242424242":"zrak"
+"4242424242":"zrak",
+"3232323232":"jagy"
 }
 
 # read mails into dict
@@ -61,14 +63,14 @@ class TextHTML(HTMLParser):
         def to_utf(match):
             char = match.group(1) + match.group(2)
             #print("char: ", char)
-            return binascii.unhexlify(char).decode()
+            return binascii.unhexlify(bytes(char, 'utf8')).decode()
         #print("\nData: ", data)
-        data = re.sub(r"=\r",'',data)
+        #data = re.sub(r"=\r",'',data)
         single_line =''.join(data.split("\n"))
         #print(data.split("\n"))
         #print("line: ", single_line)
-        single_line = re.sub(r'=([\dA-Fa-f][\dA-Fa-f])=([\dA-Fa-f][\dA-Fa-f])', to_utf, single_line)
-        single_line = re.sub(r'=09', '', single_line)
+        #single_line = re.sub(r'=([\dA-Fa-f][\dA-Fa-f])=([\dA-Fa-f][\dA-Fa-f])', to_utf, single_line)
+        #single_line = re.sub(r'=09', '', single_line)
         self.content.append(single_line)
 
 
@@ -78,20 +80,27 @@ def html_to_text(body):
     return th.content
 
 def parse_file(content):
-    mail = email.message_from_string(content)
-    body = mail.get_payload()
+    mail = email.message_from_string(content)    
     if mail.is_multipart():
-        body = body[0].get_payload()
+        body = mail.get_payload()[0].get_payload(decode=True)
+    else:
+        body = mail.get_payload(decode=True)
+    body = body.decode('utf8')
     body = re.sub(r"<!-->", '', body)
+    #body = re.sub(r'=3D"', '="', body)
     content = '\n'.join(html_to_text(body))
-    print("------------------")
-    print(content)
-    print("------------------")
+    #print("------------------")
+    #print(content)
+    #print("------------------")
 
     PP='No msg'
     date, content = get_token(content, r"Datum a čas\s*(\d*\. \d*\. \d* \d*:\d*)")
     to_account, content = get_token(content, r"(3984563001/5500\s*.*?\n)")  # .*?  = non-greedy match of anything
     amount, content = get_token(content, r"Částka v měně účtu\s*(\S*) CZK.")
+    # Remove '.' thousends markers, replace decimal comma with decimal dot.
+    amount = re.sub(r'\.','',amount)
+    amount = re.sub(r',','.',amount)  
+    
     from_account, content = get_token(content, r"Z účtu\s*(\S*\s.*?\n)")  # .*?  = non-greedy match of anything
     from_account, from_owner = from_account.split('\n', 1)
 
@@ -106,7 +115,8 @@ content = sys.stdin.read()
 try:
     [date, amount, VS, from_account, from_owner, PP] = parse_file(content)
 except Exception:
-    report_error("Chybny transakcni mail!\n")
+    date_str = datetime.datetime.today().strftime("%y%m%d_%H%M%S")
+    report_error("{}, Chybny transakcni mail!\n".format(date_str))
     
 who = vs_ropuchy.get(VS)
 if who is None:

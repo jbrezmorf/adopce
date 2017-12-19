@@ -14,10 +14,10 @@
 # tento skript by mel byt pouzivan pro vsechny operace nad ucte, 
 # vsechny transakce se loguji do $A_LOG
 #
-$HOME="/home/morf";
-$ACCOUNT="$HOME/bin/adopce/adopce-list";
+$ADOPCE_DIR="/home/morf/adopce";
+$ACCOUNT="$ADOPCE_DIR/adopce-data/adopce-list";
 $TMP_ACCOUNT="$ACCOUNT.temp";
-$A_LOG="$HOME/bin/adopce/account.log";
+$A_LOG="$ADOPCE_DIR/adopce-data/account.log";
 $WHO=$ARGV[0];
 $HOWMUCH=$ARGV[1];
 $NOTE=$ARGV[2];
