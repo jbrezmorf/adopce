@@ -80,7 +80,19 @@ def html_to_text(body):
     return th.content
 
 def parse_file(content):
-    mail = email.message_from_string(content)    
+
+
+    # strip Part marks
+    while True:
+        head, body = content.split("\n", 1)
+        content = body
+        if head:
+            break
+    part_end = content.find(head)
+    content = content[:part_end]
+    #------=_Part_36752_323234847.1513643140834
+    #------= _Part_36752_323234847.1513643140834
+    mail = email.message_from_string(content)
     if mail.is_multipart():
         body = mail.get_payload()[0].get_payload(decode=True)
     else:
@@ -110,7 +122,8 @@ def parse_file(content):
 
 
 
-
+#with open("test-data/mail_171219_012542", "r") as f:
+#    content = f.read()
 content = sys.stdin.read()
 try:
     [date, amount, VS, from_account, from_owner, PP] = parse_file(content)
