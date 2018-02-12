@@ -14,10 +14,17 @@
 # 
 # pokud zbyva nejaky dluznik, naplanuje se spusteni za tyden az tri dny
 # 
+SCRIPT_DIR=`readlink -f "$0"`
+SCRIPT_DIR=${SCRIPT_DIR%/*}
 
-MAILLIST="$HOME/bin/adopce/adopce-list"
-MAILMSG="$HOME/bin/adopce/adopce-msg"
-MAILS="$HOME/bin/adopce/adopce-mails"
+MAILLIST="$SCRIPT_DIR/adopce-data/adopce-list"
+MAILMSG="$SCRIPT_DIR/adopce-data/adopce-msg"
+MAILS="$SCRIPT_DIR/adopce-data/adopce-mails"
+MAILBOMBER="$SCRIPT_DIR/mailbomber"
+SEND_MSG="$SCRIPT_DIR/adopce-data/send-msg"
+MBRM="$SCRIPT_DIR/mbrm"
+
+set -x
 
 #######################################################################################
 # select people with negative account and inform them
@@ -27,30 +34,33 @@ function ask_for_pay() {
   do
     if [ "${PAIED%%[^-]*}" == "-" ]
     then
-      	# not paied enought
-      	MAIL=`cat $MAILS|grep $NAME|head -n 1`
-      	MAIL=`echo $MAIL|sed -e 's/.* \(.*@.*\)/\1/'|sed -e 's/[<>]//g'`
+        # not paied enought
+        MAIL=`cat $MAILS|grep $NAME|head -n 1`
+        MAIL=`echo $MAIL|sed -e 's/.* \(.*@.*\)/\1/'|sed -e 's/[<>]//g'`
 	
-	# test for small values
+        # test for small values
         x=${PAIED%.*}	# make integer
-	x=${x#-}	# absolute value
-	x=${x%[0-9]}	# devide by 10
-	x=${x%[012]};	# remove 0,1,2 => if PAIED <= -29.99999 then x == ""
-	if [ "$x" == "" ]
-	then
-		if (( $RUN == 0 )) 
-		then	
-			mail -s "Dlužíš drobnou částku: ${PAIED#-} Kc, můžeš zaplatit až s příští platbou." $MAIL <$MAILMSG
-		fi
-	else
+        x=${x#-}	# absolute value
+        x=${x%[0-9]}	# devide by 10
+        x=${x%[012]};	# remove 0,1,2 => if PAIED <= -29.99999 then x == ""
+        if [ "$x" == "" ]
+        then
+            if (( $RUN == 0 )) 
+            then	
+                echo "Dlužíš drobnou částku: ${PAIED#-} Kc, můžeš zaplatit až s příští platbou." $MAIL >>$SEND_MSG
+                #mail -s "Dlužíš drobnou částku: ${PAIED#-} Kc, můžeš zaplatit až s příští platbou." $MAIL <$MAILMSG
+            fi
+        else
 	      if (( $RUN == 0 ))
 	      then
-	  	     mail -s "Zaplat adopci: ${PAIED#-} Kc" $MAIL <$MAILMSG 
+             echo "Zaplat adopci: ${PAIED#-} Kc" $MAIL >>$SEND_MSG
+	  	     #mail -s "Zaplat adopci: ${PAIED#-} Kc" $MAIL <$MAILMSG 
 	      else
-	       	     mail -s "Zaplat adopci: ${PAIED#-} Kc, $RUN. upominka" $MAIL <$MAILMSG
+             echo "Zaplat adopci: ${PAIED#-} Kc, $RUN. upominka" $MAIL >>$SEND_MSG
+             #mail -s "Zaplat adopci: ${PAIED#-} Kc, $RUN. upominka" $MAIL <$MAILMSG
 	      fi
 	      export IS_THERE_SINER="yes"			
-	fi
+        fi
     fi        
   done;  
   } <"$MAILLIST";
@@ -66,17 +76,17 @@ then
   RUN=0
 fi
 
-# init global variables
-export IS_THERE_SINER="yes"		
-#echo "no" >$HOME/bin/xx_siner
-
+	
 if (( $RUN == 0 ))
 then
   # schedule call after half a year
-    echo "~/bin/mailbomber 0"| at now+182 days 
+    echo "$MAILBOMBER 0"| at now+182 days 
   # add amounht to pay
-  ~/bin/mbrm "alladd"
+  "$MBRM" "alladd"
 fi
+
+# init global variables
+export IS_THERE_SINER="no"  
 # mail to those who have to pay
 ask_for_pay;
 
@@ -92,9 +102,9 @@ then
   # re run remember script if it is not to late
   if [[ $RUN -lt 30 ]]
   then  
-    echo "after $NUM days run: $HOME/bin/mailbomber $RUN"
+    echo "after $NUM days run: $MAILBOMBER $RUN"
     atq
-    echo "$HOME/bin/mailbomber $RUN"|at now+$NUM days 
+    echo "$MAILBOMBER $RUN"|at now+$NUM days 
   fi  
 fi  
 

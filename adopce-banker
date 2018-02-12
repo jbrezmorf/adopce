@@ -1,0 +1,7 @@
+#!/bin/bash
+SCRIPT_DIR=`readlink "$0"`
+log_name="mail_`date '+%y%m%d_%H%M%S'`"
+echo $log_name
+tee "$SCRIPT_DIR/adopce-data/$log_name" |python3 "$SCRIPT_DIR/mail_convert.py" 2>&1 >>"$SCRIPT_DIR/adopce-data/banker.output"
+
+
